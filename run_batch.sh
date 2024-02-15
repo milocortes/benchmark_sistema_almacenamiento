@@ -9,6 +9,6 @@ do
     do
 
     echo "Benchmark: $benchmark. Block Size : $blocksize"
-
+    #bash src/run_benchmark.sh $blocksize $benchmark
     done
 done
