@@ -1,0 +1,15 @@
+[global]
+bs=${blocksize}
+iodepth=254
+direct=1
+ioengine=libaio
+group_reporting
+time_based
+runtime=120
+numjobs=4
+name=iops-randwrite
+rw=randwrite
+
+[hdd]
+numa_cpu_nodes=0
+size=2G

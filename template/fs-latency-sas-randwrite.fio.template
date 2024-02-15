@@ -1,0 +1,16 @@
+[global]
+bs=${blocksize}
+iodepth=1
+direct=1
+ioengine=psync
+group_reporting
+time_based
+invalidate=1
+runtime=120
+numjobs=1
+name=latency-randwrite
+rw=randwrite
+
+[hdd]
+numa_cpu_nodes=0
+size=2G
