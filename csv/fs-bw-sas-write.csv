@@ -1,0 +1,13 @@
+Métrica,Directorio,Block Size,Band Width [MB/s],IOPS
+fs-bw-sas-write.fio,raid0,512,19.4MiB/s,39.8k
+fs-bw-sas-write.fio,raid0,1k,36.9MiB/s,37.8k
+fs-bw-sas-write.fio,raid0,2k,67.5MiB/s,34.6k
+fs-bw-sas-write.fio,raid0,4k,405MiB/s,104k
+fs-bw-sas-write.fio,raid0,8k,454MiB/s,58.1k
+fs-bw-sas-write.fio,raid0,16k,470MiB/s,30.1k
+fs-bw-sas-write.fio,raid0,32k,462MiB/s,14.8k
+fs-bw-sas-write.fio,raid0,64k,459MiB/s,7341
+fs-bw-sas-write.fio,raid0,128k,456MiB/s,3649
+fs-bw-sas-write.fio,raid0,256k,501MiB/s,2005
+fs-bw-sas-write.fio,raid0,512k,503MiB/s,1005
+fs-bw-sas-write.fio,raid0,1M,480MiB/s,479
