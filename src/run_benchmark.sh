@@ -11,7 +11,10 @@ result_file_name="${input_benchmarl_template::$size_template_name_result}-$input
 
 bash src/build_benchmark.sh $input_block_size $input_benchmarl_template
 
+echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+date
 echo "Ejecutamos el benchmark $run_file_name con parámetro $input_block_size"
+echo ""
 #fio $run_file_name > $result_file_name
 
 #mv $result_file_name output/$result_file_name
