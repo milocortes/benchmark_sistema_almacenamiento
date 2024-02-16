@@ -10,6 +10,7 @@ runtime=120
 numjobs=1
 name=bw-read
 rw=read
+directory=/mnt/grp3/${montajedir}/fiotest
 
 [hdd]
 size=2G

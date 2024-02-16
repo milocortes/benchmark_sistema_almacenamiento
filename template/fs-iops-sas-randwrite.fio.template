@@ -9,6 +9,7 @@ runtime=120
 numjobs=4
 name=iops-randwrite
 rw=randwrite
+directory=/mnt/grp3/${montajedir}/fiotest
 
 [hdd]
 numa_cpu_nodes=0

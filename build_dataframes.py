@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 import glob
 import re
 import os
+import sys 
+
+directorio_test = sys.argv[1]
 
 ### Obtenemos el nombre de los resultados de los benchmark
 benchmark_results = glob.glob("output/*.txt")
@@ -47,17 +50,17 @@ for benchmark_file in  benchmark_results:
 dfs_benchmarks_test = {benchmark: None for benchmark in benchmarks_test}
 dfs_benchmarks_test_num = {benchmark: None for benchmark in benchmarks_test}
 
-for benchmark in benchmarks_test[:2]:
+for benchmark in benchmarks_test:
     
-    datos_raw = [[f"{benchmark}.fio", "raid0", blocksize, benchmark_data["bw"], benchmark_data["iops"]]  for blocksize, benchmark_data in results[benchmark].items()]
-    datos_raw_numeric = [[f"{benchmark}.fio", "raid0", blocksize, benchmark_data["bw"], benchmark_data["iops"]]  for blocksize, benchmark_data in results_numeric[benchmark].items()]
+    datos_raw = [[f"{benchmark}.fio", directorio_test, blocksize, benchmark_data["bw"], benchmark_data["iops"]]  for blocksize, benchmark_data in results[benchmark].items()]
+    datos_raw_numeric = [[f"{benchmark}.fio", directorio_test, blocksize, benchmark_data["bw"], benchmark_data["iops"]]  for blocksize, benchmark_data in results_numeric[benchmark].items()]
 
     dfs_benchmarks_test[benchmark] = pd.DataFrame(datos_raw, columns = ["Métrica", "Directorio", "Block Size", "Band Width [MB/s]", "IOPS"])
     dfs_benchmarks_test_num[benchmark] = pd.DataFrame(datos_raw_numeric, columns = ["Métrica", "Directorio", "Block Size", "Band Width [MB/s]", "IOPS"])
 
 ### Guardamos los resultados de cada test en csvs
-for benchmark in benchmarks_test[:2]:
-    dfs_benchmarks_test[benchmark].to_csv(f"csv/{benchmark}.csv", index = False)
+for benchmark in benchmarks_test:
+    dfs_benchmarks_test[benchmark].to_csv(f"csv/{benchmark}_directorio_test.csv", index = False)
 
 ### Generamos las imágenes para cada benchmark
 
@@ -66,7 +69,7 @@ def iops_and_bw(benchmark_name, iops_data, bw_data):
     fig, ax1 = plt.subplots()
 
     color = 'tab:blue'
-    ax1.set_title(f"Benchmark : {benchmark_name}")
+    ax1.set_title(f"Benchmark : {benchmark_name}. Directorio : {directorio_test}")
     ax1.set_xlabel('IO Block Size')
     ax1.set_ylabel('IOPS[k]', color=color)
     ax1.plot(blocksizes, iops_data, color=color)
@@ -78,19 +81,19 @@ def iops_and_bw(benchmark_name, iops_data, bw_data):
     ax2.plot(blocksizes, bw_data, color=color)
     ax2.tick_params(axis='y', labelcolor=color)
     fig.tight_layout()
-    plt.savefig(f'images/{benchmark_name}_iops_and_bw.jpg')
+    plt.savefig(f'images/{benchmark_name}_iops_and_bw_{directorio_test}.jpg')
     plt.clf()
 
 def iops_vs_bw(benchmark_name, iops_data, bw_data):
     plt.plot(dfs_benchmarks_test_num[benchmark]["IOPS"], dfs_benchmarks_test_num[benchmark]["Band Width [MB/s]"])
     plt.xlabel('IOPS[k]')
     plt.ylabel("Ancho de Banda [MB/s]")
-    plt.title(f"Benchmark : {benchmark_name}. BW vs IOPS")
-    plt.savefig(f'images/{benchmark_name}_iops_vs_bw.jpg')
+    plt.title(f"Benchmark : {benchmark_name}. BW vs IOPS. Directorio : {directorio_test}")
+    plt.savefig(f'images/{benchmark_name}_iops_vs_bw_{directorio_test}.jpg')
     plt.clf()
 
-for benchmark in benchmarks_test[:2]:
+for benchmark in benchmarks_test:
     iops_and_bw(benchmark, dfs_benchmarks_test_num[benchmark]["IOPS"], dfs_benchmarks_test_num[benchmark]["Band Width [MB/s]"])
 
-for benchmark in benchmarks_test[:2]:    
+for benchmark in benchmarks_test:    
     iops_vs_bw(benchmark, dfs_benchmarks_test_num[benchmark]["IOPS"], dfs_benchmarks_test_num[benchmark]["Band Width [MB/s]"])
