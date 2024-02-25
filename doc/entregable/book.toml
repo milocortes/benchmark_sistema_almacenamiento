@@ -1,0 +1,6 @@
+[book]
+authors = ["Hermilo Cortés"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Práctica 2"

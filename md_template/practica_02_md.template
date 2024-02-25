@@ -1,0 +1,29 @@
+# Práctica 2
+
+**Diplomado de Administración de infraestructuras de cómputo de alto rendimiento**
+
+**Tecnologías de almacenamiento y sistemas de archivos para HPC**
+
+**Hermilo Cortés González**
+
+**Paulo**
+
+**24 de Febrero de 2024**
+
+
+{% for device in devices-%}
+
+## {{device}}
+
+{% for benchmark in benchmarks-%}
+
+### {{benchmark}}
+
+<p><img src="images/{{device}}/{{benchmark}}_iops_and_bw_{{device}}.jpg"  /></p>
+<p><img src="images/{{device}}/{{benchmark}}_iops_vs_bw_{{device}}.jpg"  /></p>
+
+{{'{{#' }}include csv/{{device}}/{{benchmark}}_{{device}}.md}}
+
+{% endfor %}
+
+{% endfor %}

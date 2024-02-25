@@ -7,8 +7,10 @@ import sys
 
 directorio_test = sys.argv[1]
 
+#directorio_test = "raid1"
+
 ### Obtenemos el nombre de los resultados de los benchmark
-benchmark_results = glob.glob("output/*.txt")
+benchmark_results = glob.glob(f"output/{directorio_test}/*.txt")
 
 benchmarks_test = ["fs-bw-sas-read", "fs-bw-sas-write", "fs-iops-sas-randread", "fs-iops-sas-randwrite", "fs-latency-sas-randread", "fs-latency-sas-randwrite"]
 blocksizes = ["512", "1k", "2k", "4k", "8k", "16k", "32k", "64k", "128k", "256k", "512k", "1M"]
@@ -23,8 +25,8 @@ for benchmark_file in  benchmark_results:
 
     with open(benchmark_file) as file:
 
-        benchmark_name = "-".join(benchmark_file.split("/")[-1].split("-")[:-1])
-        blocksize = benchmark_file.split("-")[-1].split(".")[0]
+        benchmark_name = "-".join(benchmark_file.split("/")[-1].split("-")[:-2])
+        blocksize = benchmark_file.split("-")[-2].split(".")[0]
         data = "".join([i for i in file.readlines()])
 
         iops_index = data.find("IOPS=")
@@ -60,7 +62,10 @@ for benchmark in benchmarks_test:
 
 ### Guardamos los resultados de cada test en csvs
 for benchmark in benchmarks_test:
-    dfs_benchmarks_test[benchmark].to_csv(f"csv/{benchmark}_directorio_test.csv", index = False)
+    dfs_benchmarks_test[benchmark].to_csv(f"csv/{directorio_test}/{benchmark}_{directorio_test}.csv", index = False)
+    ## Guardamos la el dataframe como tabla de markdown
+    with open(f"csv/{directorio_test}/{benchmark}_{directorio_test}.md", "w") as file:
+        file.write(dfs_benchmarks_test[benchmark].to_markdown(index=False))
 
 ### Generamos las imágenes para cada benchmark
 
@@ -81,7 +86,7 @@ def iops_and_bw(benchmark_name, iops_data, bw_data):
     ax2.plot(blocksizes, bw_data, color=color)
     ax2.tick_params(axis='y', labelcolor=color)
     fig.tight_layout()
-    plt.savefig(f'images/{benchmark_name}_iops_and_bw_{directorio_test}.jpg')
+    plt.savefig(f'images/{directorio_test}/{benchmark_name}_iops_and_bw_{directorio_test}.jpg')
     plt.clf()
 
 def iops_vs_bw(benchmark_name, iops_data, bw_data):
@@ -89,7 +94,7 @@ def iops_vs_bw(benchmark_name, iops_data, bw_data):
     plt.xlabel('IOPS[k]')
     plt.ylabel("Ancho de Banda [MB/s]")
     plt.title(f"Benchmark : {benchmark_name}. BW vs IOPS. Directorio : {directorio_test}")
-    plt.savefig(f'images/{benchmark_name}_iops_vs_bw_{directorio_test}.jpg')
+    plt.savefig(f'images/{directorio_test}/{benchmark_name}_iops_vs_bw_{directorio_test}.jpg')
     plt.clf()
 
 for benchmark in benchmarks_test:
